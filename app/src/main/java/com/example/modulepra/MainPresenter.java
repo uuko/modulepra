@@ -17,14 +17,19 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter <V extends  MainContract.View> extends BasePresenter<V> implements MainContract.Presenter<V> {
 
-    /*@Inject 一般情况下是标注成员属性和构造函数
-        标注的成员属性不能是private，Dagger 2 还支持方法注入
-        @Inject还可以标注方法*/
+    /*@Inject 一般情況下是標注成員屬性和構造函數
+    標注的成員屬性不能是private，Dagger 2 還支持方法注入
+    @Inject還可以標注方法
+*/
 
+    /**contract presenter -> implement  (di  goto true)
+     *  contract view -> getView( )->getfun implement->activity
+     *  attacher bind view*/
     /*不能使用的狀況有
-        * 接口没有构造函数
-            *第三方库的类不能被标注
-            *构造函数中的参数必须配置*/
+     * 介面沒有構造函數
+     *第三方repository/library的類不能被標注
+     *構造函數中的參數必須配置
+     */
   @Inject
    public  MainPresenter(APIService apiService, CompositeDisposable compositeDisposable){
        super(apiService,compositeDisposable);

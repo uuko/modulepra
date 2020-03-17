@@ -27,9 +27,9 @@ public class BaseActivity extends AppCompatActivity implements BaseContract  {
         dismissProgressDialog();
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("waiting");
-        /*dialog弹出后会点击屏幕或物理返回键，dialog不消失*/
+        /*dialog彈出後會點擊螢幕或物理返回鍵，dialog不消失*/
         progressDialog.setCancelable(false);
-        /*dialog弹出后会点击屏幕，dialog不消失；点击物理返回键dialog消失*/
+        /*dialog彈出後會點擊螢幕，dialog不消失；點擊物理返回鍵dialog消失*/
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
     }
