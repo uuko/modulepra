@@ -4,11 +4,13 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 @Dao
 interface MainDbDao {
@@ -27,7 +29,11 @@ interface MainDbDao {
     @Delete
     public Completable deleteUsers(MainTable... users);
 
+    @Query("SELECT * FROM MainTable")
+    Single<List<MainTable>> loadAllPrivateData();
 
+    @Query("DELETE FROM MainTable WHERE id = :id")
+    public void deleteAlertByUserId(String id);
 //    @Query("SELECT * FROM PRIVATE_ENTITY WHERE qbee_id = :qbeeId AND owner = :owner" )
 //    Single<List<PhotoEntity>> loadAllPrivateDataByQbeeID(String qbeeId,String owner);
 //    @Query("SELECT * FROM PRIVATE_ENTITY")
