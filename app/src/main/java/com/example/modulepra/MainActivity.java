@@ -25,8 +25,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements MainContract.View
-        , LoadDBListener.DeletListener,LoadDBListener.InsertListener,LoadDBListener.SearchListener {
+public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Inject
     APIService getApiService;
@@ -38,6 +37,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
     private MainComponent mainComponent;
     private TextView tv;
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +49,8 @@ public class MainActivity extends BaseActivity implements MainContract.View
                 .build();
 
         mainComponent.inject(this);
-        tv=findViewById(R.id.tv);
-        button=findViewById(R.id.button);
+        tv = findViewById(R.id.tv);
+        button = findViewById(R.id.button);
         presenter.onAttached(this);
         //getUserList();
         button.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements MainContract.View
 
     }
 
-    public void getUserList(){
+    public void getUserList() {
         getApiService.getUsers().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Users>>() {
@@ -73,13 +73,13 @@ public class MainActivity extends BaseActivity implements MainContract.View
 
                     @Override
                     public void onNext(List<Users> value) {
-                        Log.e("tv", "onNext: "+value.get(0).getEmail() );
+                        Log.e("tv", "onNext: " + value.get(0).getEmail());
                         tv.setText(value.get(0).getUsername());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("yy", "onError: "+e );
+                        Log.e("yy", "onError: " + e);
                     }
 
                     @Override
@@ -92,36 +92,18 @@ public class MainActivity extends BaseActivity implements MainContract.View
 
     @Override
     public void setData(List<Users> usersList) {
-        Log.e("yy", "setData: "+usersList.get(0).getEmail());
+        Log.e("yy", "setData: " + usersList.get(0).getEmail());
         tv.setText(usersList.get(0).getUsername());
-        List<MainTable> mainTableList=new ArrayList<>();
-        for (Users users:usersList){
-            MainTable mainTable=new MainTable(users.getName(),users.getUsername(),users.getEmail(),users.getPhone()
-                    ,users.getWebsite());
-            mainTableList.add(mainTable);
-        }
-
-        MainDbMgr.getInstance().insertSharesItem(this,this,mainTableList);
-
-    }
-
-    @Override
-    public void onComplete(String a) {
+//        List<MainTable> mainTableList = new ArrayList<>();
+//        for (Users users : usersList) {
+//            MainTable mainTable = new MainTable(users.getName(), users.getUsername(), users.getEmail(), users.getPhone()
+//                    , users.getWebsite());
+//            mainTableList.add(mainTable);
+//        }
+//
+//        MainDbMgr.getInstance().insertSharesItem(this, this, mainTableList);
 
     }
 
-    @Override
-    public void onSharedFinished(List<MainTable> sharedEntityList) {
 
-    }
-
-    @Override
-    public void onDeleteComplete() {
-
-    }
-
-    @Override
-    public void onError(String a) {
-
-    }
 }
