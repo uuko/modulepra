@@ -17,8 +17,9 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//                       .applicationModule(new ApplicationModule(this))
         applicationComponent=DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
+
                 .aPIModule(new APIModule())
                 .sockettModule(new SockettModule())
                 .build();
