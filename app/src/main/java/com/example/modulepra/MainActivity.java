@@ -6,11 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.modulepra.db.LoadDBListener;
+import com.example.modulepra.db.MainDbMgr;
+import com.example.modulepra.db.MainTable;
 import com.example.modulepra.di.APIService;
 import com.example.modulepra.di.Application;
 import com.example.modulepra.model.Users;
 import com.example.modulepra.ui.base.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +25,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements MainContract.View{
+public class MainActivity extends BaseActivity implements MainContract.View
+        , LoadDBListener.DeletListener,LoadDBListener.InsertListener,LoadDBListener.SearchListener {
 
     @Inject
     APIService getApiService;
@@ -89,6 +94,34 @@ public class MainActivity extends BaseActivity implements MainContract.View{
     public void setData(List<Users> usersList) {
         Log.e("yy", "setData: "+usersList.get(0).getEmail());
         tv.setText(usersList.get(0).getUsername());
+        List<MainTable> mainTableList=new ArrayList<>();
+        for (Users users:usersList){
+            MainTable mainTable=new MainTable(users.getName(),users.getUsername(),users.getEmail(),users.getPhone()
+                    ,users.getWebsite());
+            mainTableList.add(mainTable);
+        }
+
+        MainDbMgr.getInstance().insertSharesItem(this,this,mainTableList);
+
+    }
+
+    @Override
+    public void onComplete(String a) {
+
+    }
+
+    @Override
+    public void onSharedFinished(List<MainTable> sharedEntityList) {
+
+    }
+
+    @Override
+    public void onDeleteComplete() {
+
+    }
+
+    @Override
+    public void onError(String a) {
 
     }
 }

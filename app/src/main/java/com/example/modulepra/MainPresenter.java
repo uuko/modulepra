@@ -2,10 +2,14 @@ package com.example.modulepra;
 
 import android.util.Log;
 
+import com.example.modulepra.db.LoadDBListener;
+import com.example.modulepra.db.MainDbMgr;
+import com.example.modulepra.db.MainTable;
 import com.example.modulepra.di.APIService;
 import com.example.modulepra.model.Users;
 import com.example.modulepra.ui.base.BasePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainPresenter <V extends  MainContract.View> extends BasePresenter<V> implements MainContract.Presenter<V> {
+public class MainPresenter <V extends  MainContract.View> extends BasePresenter<V> implements MainContract.Presenter<V>, LoadDBListener {
 
     /*@Inject 一般情況下是標注成員屬性和構造函數
     標注的成員屬性不能是private，Dagger 2 還支持方法注入
@@ -49,6 +53,14 @@ public class MainPresenter <V extends  MainContract.View> extends BasePresenter<
             @Override
             public void onNext(List<Users> value) {
                 getView().setData(value);
+//                List<MainTable> mainTableList=new ArrayList<>();
+//                for (Users users:value){
+//                    MainTable mainTable=new MainTable(users.getName(),users.getUsername(),users.getEmail(),users.getPhone()
+//                            ,users.getWebsite());
+//                    mainTableList.add(mainTable);
+//                }
+//
+//                MainDbMgr.getInstance().insertSharesItem(this,this,mainTableList);
             }
 
             @Override
